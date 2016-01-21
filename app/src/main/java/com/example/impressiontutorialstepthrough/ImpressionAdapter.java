@@ -2,6 +2,7 @@ package com.example.impressiontutorialstepthrough;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,25 @@ public class ImpressionAdapter extends RecyclerView.Adapter<ProductViewHolder> {
     public ImpressionAdapter(Activity activity, List<String> dataSet) {
         mDataSet = dataSet;
         mVisibilityTracker = new VisibilityTracker(activity);
+
+        mVisibilityTracker.setVisibilityTrackerListener(new VisibilityTracker.VisibilityTrackerListener() {
+            @Override
+            public void onVisibilityChanged(List<View> visibleViews, List<View> invisibleViews) {
+                handleVisibleViews(visibleViews);
+            }
+        });
+    }
+
+    private void handleVisibleViews(List<View> visibleViews) {
+        Log.d(ImpressionAdapter.class.getSimpleName(), "Currently visible views \n");
+        for (View v : visibleViews) {
+            Integer viewPosition = mViewPositionMap.get(v);
+            String viewTitle = mDataSet.get(viewPosition);
+            Log.d(ImpressionAdapter.class.getSimpleName(), viewTitle);
+        }
+
+        Log.d(ImpressionAdapter.class.getSimpleName(), "------------------------------");
+
     }
 
     @Override
